@@ -22,7 +22,7 @@ const PDF = () => {
 
     axios
       .post(
-        "http://localhost:8000/uploadbook",
+        "https://backend-lk64.onrender.com/uploadbook",
         {
           name: name,
           department: department,
@@ -37,7 +37,7 @@ const PDF = () => {
         }
       )
       .then(() => {
-        axios.get("http://localhost:8000/allbook").then((data) => {
+        axios.get("https://backend-lk64.onrender.com/allbook").then((data) => {
           setBookslist(data.data);
         });
       })
@@ -45,21 +45,21 @@ const PDF = () => {
   };
 
 
-  const handleShow = () =>{
-    setName("") 
-    setdepartment("") 
-    setWriter("") 
-    setSerial("") 
-    setFile("") 
+  const handleShow = () => {
+    setName("")
+    setdepartment("")
+    setWriter("")
+    setSerial("")
+    setFile("")
     setShow(true);
-  } 
+  }
   const handleChange = (e) => {
     setFile(e.target.files[0]);
   };
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/allbook")
+      .get("https://backend-lk64.onrender.com/allbook")
       .then((data) => {
         setBookslist(data.data);
       })
@@ -157,8 +157,8 @@ const PDF = () => {
                 <td>{item.serial}</td>
                 <td>
                   <Button
-                    variant="success"as={Link}
-                    to={`http://localhost:8000/${item.url}`}target="_blank"rel="#" >Read
+                    variant="success" as={Link}
+                    to={`https://backend-lk64.onrender.com/${item.url}`} target="_blank" rel="#" >Read
                   </Button>
                 </td>
               </tr>

@@ -14,14 +14,14 @@ const Student = () => {
   const [studentname, setstudentname] = useState("");
   const [departmentname, setdepartmentname] = useState("");
   const [studentid, setstudentid] = useState("");
-  const [loading, setloading] = useState(false); 
+  const [loading, setloading] = useState(false);
   const [studentList, setstudentList] = useState([]);
   const [update, setUpdate] = useState(false);
   const [studentObjectId, setStudentObjectId] = useState("");
 
   const handleClose = () => {
     setloading(true);
-    axios.post("http://localhost:8000/creatstudent", {
+    axios.post("https://backend-lk64.onrender.com/creatstudent", {
       studentname: studentname,
       departmentname: departmentname,
       studentid: studentid,
@@ -30,7 +30,7 @@ const Student = () => {
         setloading(false);
         setShow(false);
         setUpdate(false);
-        axios.get("http://localhost:8000/allstudent")
+        axios.get("https://backend-lk64.onrender.com/allstudent")
           .then((data) => setstudentList(data.data))
           .catch((err) => console.log(err));
       })
@@ -43,7 +43,7 @@ const Student = () => {
   const handleCloseForUpdate = () => {
     console.log(studentObjectId)
     setloading(true);
-    axios.patch(`http://localhost:8000/student/${studentObjectId}`, {
+    axios.patch(`https://backend-lk64.onrender.com/student/${studentObjectId}`, {
       studentname: studentname,
       departmentname: departmentname,
       studentid: studentid,
@@ -52,7 +52,7 @@ const Student = () => {
         setloading(false);
         setShow(false);
         setUpdate(false);
-        axios.get("http://localhost:8000/allstudent")
+        axios.get("https://backend-lk64.onrender.com/allstudent")
           .then((data) => setstudentList(data.data))
           .catch((err) => console.log(err));
       })
@@ -63,20 +63,20 @@ const Student = () => {
   };
 
   const handleShow = () => {
-    setdepartmentname("") 
-    setstudentid("") 
-    setstudentname("") 
+    setdepartmentname("")
+    setstudentid("")
+    setstudentname("")
     setShow(true);
     setUpdate(false)
   }
 
   const handleShowModal = (id) => {
     setUpdate(true)
-    axios.get(`http://localhost:8000/student/${id}`).then((data)=>{
+    axios.get(`https://backend-lk64.onrender.com/student/${id}`).then((data) => {
       console.log(data.data[0])
-      setdepartmentname(data.data[0].departmentname) 
-      setstudentid(data.data[0].studentid) 
-      setstudentname(data.data[0].studentname) 
+      setdepartmentname(data.data[0].departmentname)
+      setstudentid(data.data[0].studentid)
+      setstudentname(data.data[0].studentname)
       setStudentObjectId(data.data[0]._id)
 
 
@@ -94,25 +94,25 @@ const Student = () => {
   }, [navigate]);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/allstudent")
+    axios.get("https://backend-lk64.onrender.com/allstudent")
       .then((data) => {
         setstudentList(data.data);
       })
       .catch((err) => console.log(err));
   }, []);
 
-   let handleDelete = async (id) => {
+  let handleDelete = async (id) => {
     try {
-      await axios.post("http://localhost:8000/delete", { id }); 
-      
-      const { data } = await axios.get("http://localhost:8000/allstudent");
-      setstudentList(data); 
+      await axios.post("https://backend-lk64.onrender.com/delete", { id });
+
+      const { data } = await axios.get("https://backend-lk64.onrender.com/allstudent");
+      setstudentList(data);
     } catch (err) {
       console.log(err);
     }
   };
 
-  
+
 
   return (
     <div className='main'>
@@ -157,29 +157,29 @@ const Student = () => {
           </Modal.Body>
           <Modal.Footer>
             {update
-            ?
-            <Button disabled={loading} variant="primary" onClick={handleCloseForUpdate}>
-              {loading ? 
-                <Spinner animation="border" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </Spinner>
-              : (
-                "Update Student"
-              )}
-            </Button>
-            :
-            <Button disabled={loading} variant="primary" onClick={handleClose}>
-              {loading ? 
-                <Spinner animation="border" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </Spinner>
-               : (
-                "Create Student"
-              )}
-            </Button>
+              ?
+              <Button disabled={loading} variant="primary" onClick={handleCloseForUpdate}>
+                {loading ?
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                  : (
+                    "Update Student"
+                  )}
+              </Button>
+              :
+              <Button disabled={loading} variant="primary" onClick={handleClose}>
+                {loading ?
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                  : (
+                    "Create Student"
+                  )}
+              </Button>
 
             }
-            
+
 
           </Modal.Footer>
         </Modal>
@@ -203,8 +203,8 @@ const Student = () => {
                 <td>{item.departmentname}</td>
                 <td>{item.studentid}</td>
                 <td>
-                  <Button variant= "primary" onClick={()=>handleShowModal(item._id)} >Update</Button>
-                  <Button variant='danger' onClick={()=>handleDelete (item._id)} >Delete</Button>
+                  <Button variant="primary" onClick={() => handleShowModal(item._id)} >Update</Button>
+                  <Button variant='danger' onClick={() => handleDelete(item._id)} >Delete</Button>
                 </td>
               </tr>
             ))}
